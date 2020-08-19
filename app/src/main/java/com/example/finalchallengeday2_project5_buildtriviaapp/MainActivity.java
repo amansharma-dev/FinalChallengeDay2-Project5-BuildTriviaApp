@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton previous_imageBtn;
     private ImageButton next_imageBtn;
     private int questionCounter = 0;
+    private TextView calculateQuestionNumber_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         true_btn = findViewById(R.id.true_button);
         previous_imageBtn = findViewById(R.id.previous_ImageButton);
         next_imageBtn = findViewById(R.id.next_ImageButton);
+        calculateQuestionNumber_tv = findViewById(R.id.calculateQuestionNumbers_textView);
+
 
         cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCard));
 
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void processFinished(ArrayList<Question> questionArrayList) {
                 Log.d(TAG, "processFinished: "+questionArrayList);
+                calculateQuestionNumber();
                 updateQuestion();
             }
         });
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void updateQuestion(){
         String question = questionList.get(questionCounter).getQuestion();
         question_tv.setText(question);
+        calculateQuestionNumber();
     }
 
     private void checkIfAnswer(boolean ifAnswerTrue){
@@ -92,5 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(ifAnswerTrue == answer){
             Toast.makeText(getApplicationContext(), R.string.correct_answer,Toast.LENGTH_SHORT).show();
         } else Toast.makeText(getApplicationContext(), R.string.wrong_answer,Toast.LENGTH_SHORT).show();
+    }
+
+    private void calculateQuestionNumber(){
+
+        calculateQuestionNumber_tv.setText(questionCounter+"/"+questionList.size());
     }
 }
